@@ -15,13 +15,12 @@ specification.  It is intended as an extension to the [Material UI](http://www.m
 
 ## Prerequisites
 
-We recommend that you get to know [React](http://facebook.github.io/react/)
-before diving into material-ui. Material-UI is a set of React components,
-so understanding how React fits into web development is important.
+[Fast Healthcare Interoperatbility Resources](https://www.hl7.org/fhir/resourcelist.html)  
+[Material - User Interface](http://material-ui.com/#/get-started/prerequisites)  
+[Semantically Awesome Style Sheets](http://sass-lang.com/)  
+[React - Component Rendering](http://facebook.github.io/react/)  
+[Meteor - Application Platform](https://guide.meteor.com/)  
 
-(If you're not familiar with Node, or with the concept of Single Page Applications (SPAs),
-head over to the [documentation website](http://material-ui.com/#/get-started/prerequisites)
-for a quick introduction before you read on.)
 
 ## Installation
 
