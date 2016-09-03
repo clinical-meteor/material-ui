@@ -1,25 +1,33 @@
 {
-  "name": "material-ui-build",
+  "name": "material-fhir-ui",
   "private": true,
-  "author": "Call-em-all Engineering Team",
-  "version": "0.16.0-alpha",
-  "description": "Material Design UI components built with React",
-  "main": "./material-ui/index.js",
+  "author": "Clinical Meteor",
+  "version": "0.1.0",
+  "description": "HL7 FHIR Resources built with Material UI and React",
+  "main": "./fhir-components/index.js",
   "keywords": [
     "react",
     "react-component",
     "material design",
-    "material-ui"
+    "material-ui",
+    "interoperability",
+    "healthcare",
+    "fhir",
+    "hl7",
+    "argonaut",
+    "meteor",
+    "clinical-meteor",
+    "clinical"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/callemall/material-ui.git"
+    "url": "https://github.com/clinical-meteor/material-fhir-ui"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callemall/material-ui/issues"
+    "url": "https://github.com/clinical-meteor/material-fhir-ui/issues"
   },
-  "homepage": "http://material-ui.com/",
+  "homepage": "http://clinical.meteorapp.com",
   "scripts": {
     "build": "npm run build:icon-index && npm run build:babel && npm run build:copy-files",
     "build:icon-index": "babel-node ./scripts/icon-index-generator.js",
