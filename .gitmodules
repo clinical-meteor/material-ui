@@ -6,3 +6,6 @@
 	path = examples/browserify-gulp-example
 	url = https://github.com/callemall/material-ui-browserify-gulp-example.git
 	branch = master
+[submodule "atmosphere/patient"]
+	path = atmosphere/patient
+	url = http://github.com/clinical-meteor/hl7-resource-patient

@@ -1,16 +1,9 @@
 ##[Material-FHIR-UI](http://clinical.meteorapp.com)
 [![npm package](https://img.shields.io/npm/v/material-ui.svg?style=flat-square)](https://www.npmjs.org/package/material-ui)
-[![Build Status](https://travis-ci.org/callemall/material-ui.svg?branch=master)](https://travis-ci.org/callemall/material-ui)
-[![Gitter](https://img.shields.io/badge/gitter-join%20chat-f81a65.svg?style=flat-square)](https://gitter.im/callemall/material-ui?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Coverage Status](https://coveralls.io/repos/github/callemall/material-ui/badge.svg?branch=master)](https://coveralls.io/github/callemall/material-ui?branch=master)
-
-[![PeerDependencies](https://img.shields.io/david/peer/callemall/material-ui.svg?style=flat-square)](https://david-dm.org/callemall/material-ui#info=peerDependencies&view=list)
-[![Dependencies](https://img.shields.io/david/callemall/material-ui.svg?style=flat-square)](https://david-dm.org/callemall/material-ui)
-[![DevDependencies](https://img.shields.io/david/dev/callemall/material-ui.svg?style=flat-square)](https://david-dm.org/callemall/material-ui#info=devDependencies&view=list)
 
 Material-FHIR UI is a set of [React](http://facebook.github.io/react/) components that implement [HL7 FHIR Resources](https://www.hl7.org/fhir/resourcelist.html) using
 [Google's Material Design](https://www.google.com/design/spec/material-design/introduction.html)
-specification.  It is intended as an extension to the [Material UI](http://www.material-ui.com/) component library.
+specification.  It is intended as an extension to the [Material UI](http://www.material-ui.com/) component library.  
 
 
 ## Prerequisites
@@ -26,15 +19,14 @@ specification.  It is intended as an extension to the [Material UI](http://www.m
 
 Material-FHIR-UI is available as an [npm package](https://www.npmjs.org/package/material-ui).
 
-**Stable channel**
 ```sh
 npm install material-fhir-ui
-
-#or
-
-meteor npm install material-fhir-ui
 ```
 
+To save the package to your Meteor app's `package.json` file, run the following:
+```sh
+meteor npm install --save material-fhir-ui
+```
 
 
 ### React-Tap-Event-Plugin
