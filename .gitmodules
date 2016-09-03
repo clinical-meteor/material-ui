@@ -6,6 +6,44 @@
 	path = examples/browserify-gulp-example
 	url = https://github.com/callemall/material-ui-browserify-gulp-example.git
 	branch = master
+
+[submodule "atmosphere/appointment"]
+	path = atmosphere/appointment
+	url = http://github.com/clinical-meteor/hl7-resource-appointment
+[submodule "atmosphere/careplan"]
+	path = atmosphere/careplan
+	url = http://github.com/clinical-meteor/hl7-resource-careplan
+[submodule "atmosphere/clinical-impression"]
+	path = atmosphere/clinical-impression
+	url = http://github.com/clinical-meteor/hl7-resource-clinical-impression
+[submodule "atmosphere/diagnostic-report"]
+	path = atmosphere/diagnostic-report
+	url = http://github.com/clinical-meteor/hl7-resource-diagnostic-report
+[submodule "atmosphere/diagnostic-order"]
+	path = atmosphere/diagnostic-order
+	url = http://github.com/clinical-meteor/hl7-resource-diagnostic-order
+[submodule "atmosphere/encounter"]
+	path = atmosphere/encounter
+	url = http://github.com/clinical-meteor/hl7-resource-encounter
+[submodule "atmosphere/family-member-history"]
+	path = atmosphere/family-member-history
+	url = http://github.com/clinical-meteor/hl7-resource-family-member-history
+
 [submodule "atmosphere/patient"]
 	path = atmosphere/patient
 	url = http://github.com/clinical-meteor/hl7-resource-patient
+[submodule "atmosphere/healthcare-service"]
+	path = atmosphere/healthcare-service
+	url = http://github.com/clinical-meteor/hl7-resource-healthcare-service
+[submodule "atmosphere/imaging-study"]
+	path = atmosphere/imaging-study
+	url = http://github.com/clinical-meteor/hl7-resource-imaging-study
+[submodule "atmosphere/location"]
+	path = atmosphere/location
+	url = http://github.com/clinical-meteor/hl7-resource-location
+[submodule "atmosphere/medication"]
+	path = atmosphere/medication
+	url = http://github.com/clinical-meteor/hl7-resource-medication
+[submodule "atmosphere/medication-order"]
+	path = atmosphere/medication-order
+	url = http://github.com/clinical-meteor/hl7-resource-medication-order

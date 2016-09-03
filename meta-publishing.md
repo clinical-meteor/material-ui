@@ -3,10 +3,14 @@
 1.  Recursively clone the repo from Github with sub dependencies
 ```sh
 git clone -R http://github.com/clinical-meteor/material-fhir-ui
+cd material-fhir-ui
 ```
 
-2.  Publish to NPM
+2.  Make edits to package
 ```sh
-cd material-fhir-ui
+```
+
+3.  Publish to NPM
+```sh
 npm publish .
 ```
