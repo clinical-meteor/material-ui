@@ -4,7 +4,7 @@
   "author": "Call-em-all Engineering Team",
   "version": "0.16.0-alpha",
   "description": "Material Design UI components built with React",
-  "main": "./src/index.js",
+  "main": "./material-ui/index.js",
   "keywords": [
     "react",
     "react-component",
