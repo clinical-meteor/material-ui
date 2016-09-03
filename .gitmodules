@@ -89,3 +89,6 @@
 [submodule "examples/meteor-on-fhir"]
 	path = examples/meteor-on-fhir
 	url = http://github.com/clinical-meteor/meteor-on-fhir
+[submodule "atmosphere/observation"]
+	path = atmosphere/observation
+	url = http://github.com/clinical-meteor/hl7-resource-observation
