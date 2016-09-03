@@ -6,7 +6,14 @@ git clone -R http://github.com/clinical-meteor/material-fhir-ui
 cd material-fhir-ui
 ```
 
-2.  Make edits to package
+2.  Sync Submodules to Latest
+```sh
+? git submodule sync ?
+? git init ?
+? git update  ?
+```
+
+3.  Make edits to package
 ```sh
 ```
 
