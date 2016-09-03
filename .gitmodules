@@ -47,3 +47,42 @@
 [submodule "atmosphere/medication-order"]
 	path = atmosphere/medication-order
 	url = http://github.com/clinical-meteor/hl7-resource-medication-order
+[submodule "atmosphere/order"]
+	path = atmosphere/order
+	url = http://github.com/clinical-meteor/hl7-resource-order
+[submodule "atmosphere/organization"]
+	path = atmosphere/organization
+	url = http://github.com/clinical-meteor/hl7-resource-organization
+[submodule "atmosphere/device"]
+	path = atmosphere/device
+	url = http://github.com/clinical-meteor/hl7-resource-device
+[submodule "atmosphere/condition"]
+	path = atmosphere/condition
+	url = http://github.com/clinical-meteor/hl7-resource-condition
+[submodule "atmosphere/person"]
+	path = atmosphere/person
+	url = http://github.com/clinical-meteor/hl7-resource-person
+[submodule "atmosphere/practitioner"]
+	path = atmosphere/practitioner
+	url = http://github.com/clinical-meteor/hl7-resource-practitioner
+[submodule "atmosphere/procedure"]
+	path = atmosphere/procedure
+	url = http://github.com/clinical-meteor/hl7-resource-procedure
+[submodule "atmosphere/questionnaire"]
+	path = atmosphere/questionnaire
+	url = http://github.com/clinical-meteor/hl7-resource-questionnaire
+[submodule "atmosphere/questionnaire-response"]
+	path = atmosphere/questionnaire-response
+	url = http://github.com/clinical-meteor/hl7-resource-questionnaire-response
+[submodule "atmosphere/related-person"]
+	path = atmosphere/related-person
+	url = http://github.com/clinical-meteor/hl7-resource-related-person
+[submodule "atmosphere/risk-assessment"]
+	path = atmosphere/risk-assessment
+	url = http://github.com/clinical-meteor/hl7-resource-risk-assessment
+[submodule "atmosphere/sequence"]
+	path = atmosphere/sequence
+	url = http://github.com/clinical-meteor/hl7-resource-sequence
+[submodule "atmosphere/specimen"]
+	path = atmosphere/specimen
+	url = http://github.com/clinical-meteor/hl7-resource-specimen
