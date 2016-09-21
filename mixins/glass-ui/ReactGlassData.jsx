@@ -1,9 +1,9 @@
 const ReactGlassData = {
   componentWillMount() {
     this.data = {};
-    this._meteorDataManager = new MeteorDataManager(this);
-    const newData = this._meteorDataManager.calculateData();
-    this._meteorDataManager.updateData(newData);
+    this._glassDataManager = new GlassDataManager(this);
+    const newData = this._glassDataManager.calculateData();
+    this._glassDataManager.updateData(newData);
   },
   componentWillUpdate(nextProps, nextState) {
     const saveProps = this.props;
@@ -11,7 +11,7 @@ const ReactGlassData = {
     let newData;
     try {
       // Temporarily assign this.state and this.props,
-      // so that they are seen by getMeteorData!
+      // so that they are seen by getGlassData!
       // This is a simulation of how the proposed Observe API
       // for React will work, which calls observe() after
       // componentWillUpdate and after props and state are
@@ -19,22 +19,53 @@ const ReactGlassData = {
       // See https://github.com/facebook/react/issues/3398.
       this.props = nextProps;
       this.state = nextState;
-      newData = this._meteorDataManager.calculateData();
+      newData = this._glassDataManager.calculateData();
+
+      // assign a style object if it doesn't exist
+      if (!newData.style) {
+        newData.style = {};
+      }
+
+      // inspect session variables, and assign the corresponding variables
+      // NOTE:  the following code might not belong in this particular function
+      // the following is still experimental
+      
+      if (Session.get('darkroomEnabled')) {
+        newData.style.color = 'black';
+        newData.style.background = 'white';
+
+      } else {
+        newData.style.color = 'white';
+        newData.style.background = 'black';
+      }
+
+      // this could be another mixin
+      if (Session.get('glassBlurEnabled')) {
+        newData.style.filter = 'blur(3px)';
+        newData.style.webkitFilter = 'blur(3px)';
+      }
+
+      // this could be another mixin
+      if (Session.get('backgroundBlurEnabled')) {
+        newData.style.backdropFilter = 'blur(5px)';
+      }
+
+
     } finally {
       this.props = saveProps;
       this.state = saveState;
     }
 
-    this._meteorDataManager.updateData(newData);
+    this._glassDataManager.updateData(newData);
   },
   componentWillUnmount() {
-    this._meteorDataManager.dispose();
+    this._glassDataManager.dispose();
   },
 };
 
 // A class to keep the state and utility methods needed to manage
 // the Meteor data for a component.
-class MeteorDataManager {
+class GlassDataManager {
   constructor(component) {
     this.component = component;
     this.computation = null;
@@ -51,14 +82,14 @@ class MeteorDataManager {
   calculateData() {
     const component = this.component;
 
-    if (! component.getMeteorData) {
+    if (! component.getGlassData) {
       return null;
     }
 
     // When rendering on the server, we don't want to use the Tracker.
     // We only do the first rendering on the server so we can get the data right away
     if (Meteor.isServer) {
-      return component.getMeteorData();
+      return component.getGlassData();
     }
 
     if (this.computation) {
@@ -79,29 +110,29 @@ class MeteorDataManager {
           try {
             component.setState = () => {
               throw new Error(
-  "Can't call `setState` inside `getMeteorData` as this could cause an endless" +
-  " loop. To respond to Meteor data changing, consider making this component" +
-  " a \"wrapper component\" that only fetches data and passes it in as props to" +
-  " a child component. Then you can use `componentWillReceiveProps` in that" +
-  " child component.");
+                "Can't call `setState` inside `getGlassData` as this could cause an endless" +
+                " loop. To respond to Meteor data changing, consider making this component" +
+                " a \"wrapper component\" that only fetches data and passes it in as props to" +
+                " a child component. Then you can use `componentWillReceiveProps` in that" +
+                " child component.");
             };
 
-            data = component.getMeteorData();
+            data = component.getGlassData();
           } finally {
             component.setState = savedSetState;
           }
         } else {
           // Stop this computation instead of using the re-run.
-          // We use a brand-new autorun for each call to getMeteorData
+          // We use a brand-new autorun for each call to getGlassData
           // to capture dependencies on any reactive data sources that
           // are accessed.  The reason we can't use a single autorun
           // for the lifetime of the component is that Tracker only
           // re-runs autoruns at flush time, while we need to be able to
-          // re-call getMeteorData synchronously whenever we want, e.g.
+          // re-call getGlassData synchronously whenever we want, e.g.
           // from componentWillUpdate.
           c.stop();
           // Calling forceUpdate() triggers componentWillUpdate which
-          // recalculates getMeteorData() and re-renders the component.
+          // recalculates getGlassData() and re-renders the component.
           component.forceUpdate();
         }
       });
@@ -111,9 +142,9 @@ class MeteorDataManager {
       Object.keys(data).forEach(function (key) {
         if (data[key] instanceof Package.mongo.Mongo.Cursor) {
           console.warn(
-  "Warning: you are returning a Mongo cursor from getMeteorData. This value " +
-  "will not be reactive. You probably want to call `.fetch()` on the cursor " +
-  "before returning it.");
+            "Warning: you are returning a Mongo cursor from getGlassData. This value " +
+            "will not be reactive. You probably want to call `.fetch()` on the cursor " +
+            "before returning it.");
         }
       });
     }
@@ -126,7 +157,7 @@ class MeteorDataManager {
     const oldData = this.oldData;
 
     if (! (newData && (typeof newData) === 'object')) {
-      throw new Error("Expected object returned from getMeteorData");
+      throw new Error("Expected object returned from getGlassData");
     }
     // update componentData in place based on newData
     for (let key in newData) {
