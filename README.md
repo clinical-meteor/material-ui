@@ -29,22 +29,6 @@ meteor npm install --save material-fhir-ui
 ```
 
 
-### React-Tap-Event-Plugin
-
-Some components use
-[react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) to
-listen for touch events because onClick is not fast enough
-_This dependency is temporary and will eventually go away._ Until then,
-be sure to inject this plugin at the start of your app.
-
-```js
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
-```
-
 ### Roboto Font
 
 Material-UI was designed with the [Roboto](http://www.google.com/fonts/specimen/Roboto)
@@ -52,7 +36,13 @@ font in mind. So be sure to include it in your project. Here are
 [some instructions](http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500)
 on how to do so.
 
-## Usage
+## FHIR API  
+
+- [Patient](./api.Patient.md)   
+- [Observation](./api.Observation.md)  
+
+
+## Theming  
 
 Material-FHIR-UI components require a theme to be provided. The quickest way to get up and running is by using the `MuiThemeProvider` to inject the theme into your application context. Following that, you can to use any of the components as demonstrated in the documentation. Here is a quick example to get you started:
 

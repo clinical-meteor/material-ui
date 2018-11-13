@@ -6,7 +6,8 @@ git clone -R http://github.com/clinical-meteor/material-fhir-ui
 cd material-fhir-ui
 ```
 
-2.  Sync Submodules to Latest
+2.  Sync Submodules to Latest  
+If you are 
 ```sh
 ? git submodule sync ?
 ? git init ?
@@ -15,6 +16,11 @@ cd material-fhir-ui
 
 3.  Make edits to package
 ```sh
+git branch
+git pulll origin branch-name
+
+git commit -a -m 'version description'
+git push origin branch-name
 ```
 
 3.  Publish to NPM
