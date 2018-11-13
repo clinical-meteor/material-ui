@@ -1,4 +1,4 @@
-##[Material-FHIR-UI](http://clinical.meteorapp.com)
+## [Material-FHIR-UI](http://clinical.meteorapp.com)  
 [![npm package](https://img.shields.io/npm/v/material-ui.svg?style=flat-square)](https://www.npmjs.org/package/material-ui)
 
 Material-FHIR UI is a set of [React](http://facebook.github.io/react/) components that implement [HL7 FHIR Resources](https://www.hl7.org/fhir/resourcelist.html) using
@@ -12,7 +12,6 @@ specification.  It is intended as an extension to the [Material UI](http://www.m
 [Material - User Interface](http://material-ui.com/#/get-started/prerequisites)  
 [Semantically Awesome Style Sheets](http://sass-lang.com/)  
 [React - Component Rendering](http://facebook.github.io/react/)  
-[Meteor - Application Platform](https://guide.meteor.com/)  
 
 
 ## Installation
