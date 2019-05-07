@@ -74,6 +74,9 @@ export class PatientDetail extends React.Component {
         maritalStatus: {
           text: ''
         },
+        telecom: [{
+          use: "phone"
+        }],
         contact: [],
         animal: {
           species: {
@@ -117,11 +120,13 @@ export class PatientDetail extends React.Component {
     formData.suffix = get(patient, 'name[0].suffix[0]')
     formData.identifier = get(patient, 'identifier[0].value')
     formData.deceased = get(patient, 'deceasedBoolean')
+    formData.gender = get(patient, 'gender')
     formData.multipleBirth = get(patient, 'multipleBirthBoolean')
     formData.maritalStatus = get(patient, 'maritalStatus.text')
     formData.species = get(patient, 'animal.species.text')
     formData.language = get(patient, 'communication[0].language.text')
     formData.birthDate = moment(patient.birthDate).format("YYYY-MM-DD")
+    formData.smartphone = get(patient, 'telecom[0].value')
 
     return formData;
   }
@@ -179,7 +184,7 @@ export class PatientDetail extends React.Component {
                 ref='identifier'
                 name='identifier'
                 floatingLabelText='Identifier (Medical Record Number)'
-                defaultValue={ get(formData, 'identifier', '')}
+                value={ get(formData, 'identifier', '')}
                 onChange={ this.changeState.bind(this, 'identifier')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -202,9 +207,9 @@ export class PatientDetail extends React.Component {
                 ref='prefix'
                 name='prefix'
                 floatingLabelText='Prefix'
-                defaultValue={ get(formData, 'prefix', '')}
+                value={ get(formData, 'prefix', '')}
                 onChange={ this.changeState.bind(this, 'prefix')}
-                hintText='Ms.'
+                hintText=''
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -216,7 +221,7 @@ export class PatientDetail extends React.Component {
                 name='given'
                 floatingLabelText='Given Name'
                 hintText='Jane'
-                defaultValue={ get(formData, 'given', '')}
+                value={ get(formData, 'given', '')}
                 onChange={ this.changeState.bind(this, 'given')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -229,7 +234,7 @@ export class PatientDetail extends React.Component {
                 name='family'
                 floatingLabelText='Family Name'
                 hintText='Doe'
-                defaultValue={ get(formData, 'family', '')}
+                value={ get(formData, 'family', '')}
                 onChange={ this.changeState.bind(this, 'family')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -242,8 +247,8 @@ export class PatientDetail extends React.Component {
                 ref='suffix'
                 name='suffix'
                 floatingLabelText='Suffix / Maiden'
-                hintText='-McDonald'
-                defaultValue={ get(formData, 'suffix', '')}
+                hintText=''
+                value={ get(formData, 'suffix', '')}
                 onChange={ this.changeState.bind(this, 'suffix')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -258,7 +263,7 @@ export class PatientDetail extends React.Component {
                 name='maritalStatus'
                 floatingLabelText='Marital Status'
                 hintText='single | maried | other'
-                defaultValue={ get(formData, 'maritalStatus', '')}
+                value={ get(formData, 'maritalStatus', '')}
                 onChange={ this.changeState.bind(this, 'maritalStatus')}
                 floatingLabelFixed={false}
                 floatingLabelFixed={true}
@@ -272,7 +277,7 @@ export class PatientDetail extends React.Component {
                 name='gender'
                 floatingLabelText='Gender'
                 hintText='male | female | unknown'
-                defaultValue={ get(formData, 'gender', '')}
+                value={ get(formData, 'gender', '')}
                 onChange={ this.changeState.bind(this, 'gender')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -289,7 +294,7 @@ export class PatientDetail extends React.Component {
                 type='date'
                 floatingLabelText='Birthdate'
                 // hintText='YYYY-MM-DD'
-                defaultValue={ get(formData, 'birthDate', '')}
+                value={ get(formData, 'birthDate', '')}
                 onChange={ this.changeState.bind(this, 'birthDate')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -313,7 +318,7 @@ export class PatientDetail extends React.Component {
                 name='photo'
                 floatingLabelText='Photo'
                 hintText='http://somewhere.com/image.jpg'
-                defaultValue={ get(formData, 'photo', '')}
+                value={ get(formData, 'photo', '')}
                 onChange={ this.changeState.bind(this, 'photo')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -325,7 +330,7 @@ export class PatientDetail extends React.Component {
                 ref='species'
                 name='species'
                 floatingLabelText='Species'
-                defaultValue={ get(formData, 'species', '')}
+                value={ get(formData, 'species', '')}
                 hintText='Human'
                 onChange={ this.changeState.bind(this, 'species')}
                 floatingLabelFixed={true}
@@ -338,9 +343,24 @@ export class PatientDetail extends React.Component {
                 ref='language'
                 name='language'
                 floatingLabelText='Language'
-                defaultValue={ get(formData, 'language', '')}
+                value={ get(formData, 'language', '')}
                 onChange={ this.changeState.bind(this, 'language')}
                 hintText='English'
+                floatingLabelFixed={true}
+                fullWidth
+                /><br/>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <TextField
+                id='smartphoneInput'
+                ref='smartphone'
+                name='smartphone'
+                floatingLabelText='Phone'
+                hintText='773-555-1234'
+                value={ get(formData, 'smartphone', '')}
+                onChange={ this.changeState.bind(this, 'smartphone')}
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
@@ -443,6 +463,9 @@ export class PatientDetail extends React.Component {
       case "birthDate":
         set(formData, 'birthDate', textValue)
         break;
+      case "smartphone":
+        set(formData, 'smartphone', textValue)
+        break;
       default:
     }
 
@@ -488,6 +511,9 @@ export class PatientDetail extends React.Component {
         break;  
       case "photo":
         set(patientData, 'photo[0].url', textValue)
+        break;
+      case "smartphone":
+        set(patientData, 'telecom[0].value', textValue)
         break;
       case "birthDate":
         set(patientData, 'birthDate', textValue)

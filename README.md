@@ -5,6 +5,10 @@ Material-FHIR UI is a set of [React](http://facebook.github.io/react/) component
 [Google's Material Design](https://www.google.com/design/spec/material-design/introduction.html)
 specification.  It is intended as an extension to the [Material UI](http://www.material-ui.com/) component library.  
 
+We intend to track normative level resources only; which as of R4 are primarily the Patient and Observation tables and detail cards.  Stay tuned for R5 though!    
+
+If you're interested in non-normative resources, feel free to peruse the `/client/react` directories of any of the `hl7-resource-*` repositories in the [clinical-meteor](https://github.com/clinical-meteor) organization.  
+
 
 ## Prerequisites
 
@@ -12,7 +16,6 @@ specification.  It is intended as an extension to the [Material UI](http://www.m
 [Material - User Interface](http://material-ui.com/#/get-started/prerequisites)  
 [Semantically Awesome Style Sheets](http://sass-lang.com/)  
 [React - Component Rendering](http://facebook.github.io/react/)  
-
 
 ## Installation
 
@@ -35,11 +38,10 @@ font in mind. So be sure to include it in your project. Here are
 [some instructions](http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500)
 on how to do so.
 
-## FHIR API  
+<!-- ## FHIR API  
 
 - [Patient](./api.Patient.md)   
-- [Observation](./api.Observation.md)  
-
+- [Observation](./api.Observation.md)   -->
 
 ## Theming  
 
@@ -52,9 +54,11 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MyAwesomeReactComponent from './MyAwesomeReactComponent';
 
+import { PatientCard } from 'material-fhir-ui';
+
 const App = () => (
   <MuiThemeProvider>
-    <MyAwesomeReactComponent />
+    <PatientCard />
   </MuiThemeProvider>
 );
 
@@ -64,28 +68,20 @@ ReactDOM.render(
 );
 ```
 
-**./MyAwesomeReactComponent.js**
+**./PatientCard.jsx**
 ```jsx
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import { PatientTable } from 'material-fhir-ui';
 
-const MyAwesomeReactComponent = () => (
-  <RaisedButton label="Default" />
+const MyAwesomeFhirWorkflowComponent = () => (
+  <PatientTable label="Default" />
 );
 
-export default MyAwesomeReactComponent;
+export default MyAwesomeFhirWorkflowComponent;
 ```
 
 Please refer to each component's documentation page to see how they should be imported.
 
-## Customization
-
-We have implemented a default theme to render all Material-UI components.
-Styling components to your liking is simple and hassle-free. This can be
-achieved in the following two ways:
-
-* [Use a custom theme to style components](http://material-ui.com/#/customization/themes)
-* [Override individual component styles via the `style` prop](http://material-ui.com/#/customization/inline-styles)
 
 ## Examples
 

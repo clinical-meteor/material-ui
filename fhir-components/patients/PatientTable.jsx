@@ -1,4 +1,5 @@
-import Avatar from 'material-ui/Avatar';
+import { Card, CardActions, CardMedia, CardText, CardTitle, Toggle } from 'material-ui';
+
 import FlatButton from 'material-ui/FlatButton';
 import { HTTP } from 'meteor/http';
 import React from 'react';
@@ -9,6 +10,9 @@ import { Session } from 'meteor/session';
 import { has, get } from 'lodash';
 import { TableNoData } from 'meteor/clinical:glass-ui'
 import PropTypes from 'prop-types';
+
+import { FaTags, FaCode, FaPuzzlePiece, FaLock  } from 'react-icons/fa';
+import { GoTrashcan } from 'react-icons/go'
 
 flattenPatient = function(person){
   let result = {
@@ -126,7 +130,7 @@ export class PatientTable extends React.Component {
       data.style.cellHideOnPhone.display = 'table-cell';
     }
 
-    // console.log("PatientTable[data]", data);
+    console.log("PatientTable[data]", data);
     return data;
   }
   imgError(avatarId) {
@@ -145,7 +149,8 @@ export class PatientTable extends React.Component {
     }
   }
   renderRowAvatar(patient, avatarStyle){
-    console.log('renderRowAvatar', patient, avatarStyle)
+    //console.log('renderRowAvatar', patient, avatarStyle)
+    
     if (get(Meteor, 'settings.public.defaults.avatars') && (this.props.showAvatars === true)) {
       return (
         <td className='avatar'>
@@ -207,10 +212,100 @@ export class PatientTable extends React.Component {
       }
     });
   }
-  selectPatientRow(patientId){
-    if(typeof(this.props.onRowClick) === "function"){
+  selectPatientRow(patientId, foo, bar){
+    console.log('Selecting a new Patient...');
+    console.log('patientId', patientId, foo, bar)
+    if(typeof this.props.onRowClick === "function"){
+      console.log('Apparently we received an onRowClick() as a prop')
       this.props.onRowClick(patientId);
+    } else {
+      Session.set('selectedPatientId', patientId);
+      Session.set('selectedPatient', Patients.findOne(patientId));
     }
+  }
+  renderToggleHeader(){
+    if (!this.props.hideToggle) {
+      return (
+        <th className="toggle" style={{width: '60px'}} >Toggle</th>
+      );
+    }
+  }
+  renderToggle(){
+    if (!this.props.hideToggle) {
+      return (
+        <td className="toggle" style={{width: '60px'}}>
+            <Toggle
+              defaultToggled={true}
+            />
+          </td>
+      );
+    }
+  }
+  renderActionIconsHeader(){
+    if (!this.props.hideActionIcons) {
+      return (
+        <th className='actionIcons' style={{minWidth: '120px'}}>Actions</th>
+      );
+    }
+  }
+  renderActionIcons(patient ){
+    if (!this.props.hideActionIcons) {
+      let iconStyle = {
+        marginLeft: '4px', 
+        marginRight: '4px', 
+        marginTop: '4px', 
+        fontSize: '120%'
+      }
+
+      return (
+        <td className='actionIcons' style={{minWidth: '120px'}}>
+          <FaTags style={iconStyle} onClick={this.showSecurityDialog.bind(this, patient)} />
+          <GoTrashcan style={iconStyle} onClick={this.removeRecord.bind(this, patient._id)} />  
+        </td>
+      );
+    }
+  } 
+
+  renderMaritalStatusHeader(){
+    if (!this.props.hideMaritalStatus) {
+      return (
+        <th className="maritalStatus">Marital Status</th>
+      );
+    }
+  }
+  renderMaritalStatus(patient){
+    if (!this.props.hideMaritalStatus) {
+      return (
+        <td className='maritalStatus'>{patient.maritalStatus}</td>
+      );
+    }
+  }
+
+  renderLanguageHeader(){
+    if (!this.props.hideLanguage) {
+      return (
+        <th className="language">Language</th>
+      );
+    }
+  }
+  renderLanguage(patient){
+    if (!this.props.hideLanguage) {
+      return (
+        <td className='language'>{patient.language}</td>
+      );
+    }
+  }
+  removeRecord(_id){
+    console.log('Remove patient ', _id)
+    Patients._collection.remove({_id: _id})
+  }
+  showSecurityDialog(patient){
+    console.log('showSecurityDialog', patient)
+
+    Session.set('securityDialogResourceJson', Patients.findOne(get(patient, '_id')));
+    Session.set('securityDialogResourceType', 'Patient');
+    Session.set('securityDialogResourceId', get(patient, '_id'));
+    Session.set('securityDialogOpen', true);
   }
   render () {
     let tableRows = [];
@@ -220,17 +315,32 @@ export class PatientTable extends React.Component {
       footer = <TableNoData noDataPadding={ this.props.noDataMessagePadding } />
     } else {
       for (var i = 0; i < this.data.patients.length; i++) {
+
+        let rowStyle = {
+          cursor: 'pointer'
+        }
+        if(get(this.data.patients[i], 'modifierExtension[0]')){
+          rowStyle.color = "orange";
+        }
+
         tableRows.push(
-          <tr key={i} className="patientRow" style={{cursor: "pointer"}} onClick={this.selectPatientRow.bind(this, this.data.patients[i].id )} >
+          <tr key={i} className="patientRow" style={rowStyle} onClick={this.selectPatientRow.bind(this, this.data.patients[i]._id )} >
   
+            { this.renderToggle(this.data.patients[i]) }
+            { this.renderActionIcons(this.data.patients[i]) }
+
             { this.renderRowAvatar(this.data.patients[i], this.data.style.avatar) }
   
             <td className='identifier' style={this.data.style.cellHideOnPhone}>{this.data.patients[i].identifier}</td>
             <td className='name' onClick={ this.rowClick.bind('this', this.data.patients[i]._id)} style={this.data.style.cell}>{this.data.patients[i].name }</td>
             <td className='gender' onClick={ this.rowClick.bind('this', this.data.patients[i]._id)} style={this.data.style.cell}>{this.data.patients[i].gender}</td>
             <td className='birthDate' onClick={ this.rowClick.bind('this', this.data.patients[i]._id)} style={{minWidth: '100px', paddingTop: '16px'}}>{this.data.patients[i].birthDate }</td>
-            <td className='maritalStatus' style={this.data.style.cellHideOnPhone}>{this.data.patients[i].maritalStatus}</td>
-            <td className='language' style={this.data.style.cellHideOnPhone}>{this.data.patients[i].language}</td>
+
+            { this.renderMaritalStatus(this.data.patients[i]) }
+            { this.renderLanguage(this.data.patients[i]) }
+
+            {/* <td className='maritalStatus' style={this.data.style.cellHideOnPhone}>{this.data.patients[i].maritalStatus}</td> */}
+            {/* <td className='language' style={this.data.style.cellHideOnPhone}>{this.data.patients[i].language}</td> */}
             <td className='isActive' onClick={ this.rowClick.bind('this', this.data.patients[i]._id)} style={this.data.style.cellHideOnPhone}>{this.data.patients[i].active}</td>
 
               { this.renderSpeciesRow(this.props.displaySpecies, this.data.patients[i]) }
@@ -247,14 +357,20 @@ export class PatientTable extends React.Component {
         <Table id='patientsTable' hover >
           <thead>
             <tr>
+              { this.renderToggleHeader() }
+              { this.renderActionIconsHeader() }
               { this.renderRowAvatarHeader() }
-
+  
               <th className='identifier' style={this.data.style.hideOnPhone}>Identifier</th>
               <th className='name'>Name</th>
               <th className='gender'>Gender</th>
               <th className='birthdate' style={{minWidth: '100px'}}>Birthdate</th>
-              <th className='maritalStatus' style={this.data.style.hideOnPhone}>Marital Status</th>
-              <th className='language' style={this.data.style.hideOnPhone}>Language</th>
+
+              { this.renderMaritalStatusHeader(this.data.patients[i]) }
+              { this.renderLanguageHeader(this.data.patients[i]) }
+
+              {/* <th className='maritalStatus' style={this.data.style.hideOnPhone}>Marital Status</th> */}
+              {/* <th className='language' style={this.data.style.hideOnPhone}>Language</th> */}
               <th className='isActive' style={this.data.style.hideOnPhone}>Active</th>
               
               { this.renderSpeciesHeader(this.props.displaySpecies) }
@@ -273,10 +389,16 @@ export class PatientTable extends React.Component {
 
 PatientTable.propTypes = {
   id: PropTypes.string,
+  data: PropTypes.array,
   fhirVersion: PropTypes.string,
   showSendButton: PropTypes.bool,
   displaySpecies: PropTypes.bool,
-  noDataMessagePadding: PropTypes.number
+  onRowClick: PropTypes.func,
+  hideToggle: PropTypes.bool,
+  hideActionIcons: PropTypes.bool,
+  hideMaritalStatus: PropTypes.bool,
+  hideLanguage: PropTypes.bool,
+  noDataMessagePadding: PropTypes.number  
 };
 
 ReactMixin(PatientTable.prototype, ReactMeteorData);

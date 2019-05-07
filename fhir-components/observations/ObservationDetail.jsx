@@ -12,9 +12,9 @@ import ReactMixin from 'react-mixin';
 import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 
 import { get, set } from 'lodash';
+// import { setFlagsFromString } from 'v8';
 
 
 
@@ -58,6 +58,7 @@ export class ObservationDetail extends React.Component {
         effectiveDateTime: '',
         loincCode: '',
         loincCodeText: '',
+        loincCodeDisplay: '',
         status: ''
       }
     }
@@ -78,7 +79,8 @@ export class ObservationDetail extends React.Component {
     formData.status = get(observation, 'status')
 
     formData.loincCode = get(observation, 'code.codeable[0].code')
-    formData.loincCodeText = get(observation, 'code..codeable[0].display')
+    formData.loincCodeText = get(observation, 'code.text')
+    formData.loincCodeDisplay = get(observation, 'code.codeable[0].display')
 
     return formData;
   }
@@ -86,22 +88,23 @@ export class ObservationDetail extends React.Component {
     process.env.NODE_ENV === "test" && console.log('ObservationDetail.shouldComponentUpdate()', nextProps, this.state)
     let shouldUpdate = true;
 
-    // both false; don't take any more updates
-    if(nextProps.observation === this.state.observation){
-      shouldUpdate = false;
-    }
-
     // received an observation from the table; okay lets update again
     if(nextProps.observationId !== this.state.observationId){
-      this.setState({observationId: nextProps.observationId})
-      
+
       if(nextProps.observation){
         this.setState({observation: nextProps.observation})     
         this.setState({form: this.dehydrateFhirResource(nextProps.observation)})       
       }
+
+      this.setState({observationId: nextProps.observationId})      
       shouldUpdate = true;
     }
- 
+
+    // both false; don't take any more updates
+    if(nextProps.observation === this.state.observation){
+      shouldUpdate = false;
+    }
+    
     return shouldUpdate;
   }
   getMeteorData() {
@@ -118,9 +121,10 @@ export class ObservationDetail extends React.Component {
     
     if(this.props.observation){
       data.observation = this.props.observation;
+      data.form = this.dehydrateFhirResource(this.props.observation);
     }
 
-    if(process.env.NODE_ENV === "test") console.log("ObservationDetail[data]", data);
+    //console.log("ObservationDetail[data]", data);
     return data;
   }
 
@@ -133,7 +137,7 @@ export class ObservationDetail extends React.Component {
       return (
         <DatePicker 
           name='effectiveDateTime'
-          hintText="Date of Administration" 
+          hintText={ this.setHint("Date of Administration") } 
           container="inline" 
           mode="landscape"
           value={ effectiveDateTime ? effectiveDateTime : null}    
@@ -143,63 +147,117 @@ export class ObservationDetail extends React.Component {
       );
     }
   }
+  setHint(text){
+    if(this.props.showHints !== false){
+      return text;
+    } else {
+      return '';
+    }
+  }
   render() {
-    if(process.env.NODE_ENV === "test") console.log('ObservationDetail.render()', this.state)
-    let formData = this.state.form;
+    console.log('ObservationDetail.render()', this.state)
+    //let formData = this.state.form;
+
+    var patientInputs;
+    if(this.props.showPatientInputs !== false){
+      patientInputs = <Row>
+        <Col md={6}>
+          <TextField
+            id='subjectDisplayInput'                
+            name='subjectDisplay'
+            floatingLabelText='Subject Name'
+            // TimelineSidescrollPage dialog popup
+            // Getting the following when passing an observation in via props
+            // A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component. 
+            value={ get(this, 'data.form.subjectDisplay') }
+            onChange={ this.changeState.bind(this, 'subjectDisplay')}
+            hintText={ this.setHint('Jane Doe') }
+            floatingLabelFixed={true}
+            fullWidth
+            /><br/>
+        </Col>
+        <Col md={3}>
+          <TextField
+            id='subjectIdInput'                
+            name='subjectReference'
+            floatingLabelText='Subject ID'
+            value={ get(this, 'data.form.subjectReference') }
+            onChange={ this.changeState.bind(this, 'subjectReference')}
+            hintText={ this.setHint('Patient/12345') }
+            floatingLabelFixed={true}
+            fullWidth
+            /><br/>
+        </Col>
+        <Col md={3}>
+          <TextField
+            id='categoryTextInput'                
+            name='category'
+            floatingLabelText='Category'
+            value={ get(this, 'data.form.category') }
+            onChange={ this.changeState.bind(this, 'category')}
+            hintText={ this.setHint('Vital Signs') }
+            floatingLabelFixed={true}
+            fullWidth
+            /><br/>
+        </Col>
+      </Row>
+    }
 
     return (
       <div id={this.props.id} className="observationDetail">
         <CardText>
+          { patientInputs }
           <Row>
-            <Col md={6}>
+          <Col md={6}>
               <TextField
-                id='subjectDisplayInput'
-                ref='subjectDisplay'
-                name='subjectDisplay'
-                floatingLabelText='Subject Name'
-                value={ get(formData, 'subjectDisplay') }
-                onChange={ this.changeState.bind(this, 'subjectDisplay')}
-                hintText='Jane Doe'
+                id='loincCodeTextInput'                
+                name='loincCodeText'
+                floatingLabelText='LOINC Code Text'
+                value={ get(this, 'data.form.loincCodeText') }
+                onChange={ this.changeState.bind(this, 'loincCodeText')}
+                hintText={ this.setHint('HbA1c') }
+                floatingLabelFixed={true}
+                value={ get(this, 'data.form.loincCodeText') }
+                onChange={ this.changeState.bind(this, 'loincCodeText')}
+                hintText={ this.setHint('HbA1c') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
-            <Col md={3}>
+            <Col md={2}>
               <TextField
-                id='subjectIdInput'
-                ref='subjectReference'
-                name='subjectReference'
-                floatingLabelText='Subject ID'
-                value={ get(formData, 'subjectReference') }
-                onChange={ this.changeState.bind(this, 'subjectReference')}
-                hintText='Patient/12345'
+                id='loincCodeInput'                
+                name='loincCode'
+                floatingLabelText='LOINC Code'
+                value={ get(this, 'data.form.loincCode') }
+                onChange={ this.changeState.bind(this, 'loincCode')}
+                hintText={ this.setHint('4548-4') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
-            <Col md={3}>
+            <Col md={4}>
               <TextField
-                id='categoryTextInput'
-                ref='category'
-                name='category'
-                floatingLabelText='Category'
-                value={ get(formData, 'category') }
-                onChange={ this.changeState.bind(this, 'category')}
-                hintText='Vital Signs'
+                id='loincDisplayInput'                
+                name='loincCodeText'
+                floatingLabelText='LOINC Display'
+                value={ get(this, 'data.form.loincCodeText') }
+                onChange={ this.changeState.bind(this, 'loincCodeText')}
+                hintText={ this.setHint('4548-4') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
           </Row>
+
           <Row>
             <Col md={2}>
               <TextField
-                id='comparatorInput'
-                ref='comparator'
+                id='comparatorInput'                
                 name='valueQuantity.comparator'
                 floatingLabelText='Comparator'
-                hintText='< | <= | >= | >'
-                value={ get(formData, 'comparator') }
+                hintText={ this.setHint('< | <= | >= | >') }
+                value={ get(this, 'data.form.comparator') }
                 onChange={ this.changeState.bind(this, 'comparator')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -207,12 +265,11 @@ export class ObservationDetail extends React.Component {
             </Col>
             <Col md={2}>
               <TextField
-                id='valueQuantityInput'
-                ref='quantity'
+                id='valueQuantityInput'                
                 name='valueQuantity.value'
                 floatingLabelText='Quantity'
-                hintText='70.0'
-                value={ get(formData, 'quantity') }
+                hintText={ this.setHint('70.0') }
+                value={ get(this, 'data.form.quantity') }
                 onChange={ this.changeState.bind(this, 'quantity')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -220,12 +277,11 @@ export class ObservationDetail extends React.Component {
             </Col>
             <Col md={2}>
               <TextField
-                id='valueQuantityUnitInput'
-                ref='unit'
+                id='valueQuantityUnitInput'                
                 name='valueQuantity.unit'
                 floatingLabelText='Unit'
-                hintText='kg'
-                value={ get(formData, 'unit') }
+                hintText={ this.setHint('kg') }
+                value={ get(this, 'data.form.unit') }
                 onChange={ this.changeState.bind(this, 'unit')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -233,12 +289,11 @@ export class ObservationDetail extends React.Component {
             </Col>
             <Col md={3}>
               <TextField
-                id='valueStringInput'
-                ref='value'
+                id='valueStringInput'                
                 name='value'
                 floatingLabelText='Value'
-                hintText='AB+; pos; neg'
-                value={ get(formData, 'value') }
+                hintText={ this.setHint('AB+; pos; neg') }
+                value={ get(this, 'data.form.value') }
                 onChange={ this.changeState.bind(this, 'value')}
                 floatingLabelFixed={true}
                 fullWidth
@@ -246,76 +301,45 @@ export class ObservationDetail extends React.Component {
             </Col>
             <Col md={3}>
               <TextField
-                id='statusInput'
-                ref='status'
+                id='statusInput'                
                 name='status'
                 floatingLabelText='Status'
-                value={ get(formData, 'status') }
+                value={ get(this, 'data.form.status') }
                 onChange={ this.changeState.bind(this, 'status')}
-                hintText='preliminary | final'
+                hintText={ this.setHint('preliminary | final') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
           </Row>
           <Row>
-          <Col md={3}>
-              <TextField
-                id='loincCodeInput'
-                ref='loincCode'
-                name='loincCode'
-                floatingLabelText='LOINC Code'
-                value={ get(formData, 'loincCode') }
-                onChange={ this.changeState.bind(this, 'loincCode')}
-                hintText='4548-4'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
             <Col md={3}>
               <TextField
-                id='loincCodeTextInput'
-                ref='loincCodeText'
-                name='loincCodeText'
-                floatingLabelText='LOINC Code Text'
-                value={ get(formData, 'loincCodeText') }
-                onChange={ this.changeState.bind(this, 'loincCodeText')}
-                hintText='HbA1c'
-                floatingLabelFixed={true}
-                fullWidth
-                /><br/>
-            </Col>
-            <Col md={3}>
-              <TextField
-                id='deviceDisplayInput'
-                ref='deviceDisplay'
+                id='deviceDisplayInput'                
                 name='deviceDisplay'
                 floatingLabelText='Device Name'
-                value={ get(formData, 'deviceDisplay') }
+                value={ get(this, 'data.form.deviceDisplay') }
                 onChange={ this.changeState.bind(this, 'deviceDisplay')}
-                hintText='iHealth Blood Pressure Cuff'
+                hintText={ this.setHint('iHealth Blood Pressure Cuff') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
             <Col md={3}>
               <TextField
-                id='deviceReferenceInput'
-                ref='deviceReference'
+                id='deviceReferenceInput'                
                 name='deviceReference'
                 floatingLabelText='Device Name'
-                // value={ get(formData, 'deviceReference') }
+                // value={ get(this, 'data.form.deviceReference') }
                 // onChange={ this.changeState.bind(this, 'deviceReference')}
-                hintText='Device/444'
+                hintText={ this.setHint('Device/444') }
                 floatingLabelFixed={true}
                 fullWidth
                 /><br/>
             </Col>
-          </Row>
-          <Row>
             <Col md={3}>
               <br />
-              { this.renderDatePicker(this.data.displayDatePicker, get(formData, 'effectiveDateTime') ) }
+              { this.renderDatePicker(this.data.displayDatePicker, get(this, 'data.form.effectiveDateTime') ) }
             </Col>
 
           </Row>
@@ -383,6 +407,9 @@ export class ObservationDetail extends React.Component {
       case "loincCodeText":
         set(formData, 'loincCodeText', textValue)
         break;
+      case "loincCodeDisplay":
+        set(formData, 'loincCodeDisplay', textValue)
+        break;
     }
 
     if(process.env.NODE_ENV === "test") console.log("formData", formData);
@@ -426,10 +453,13 @@ export class ObservationDetail extends React.Component {
         set(observationData, 'status', textValue)
         break;    
       case "loincCode":
-        set(formData, 'code.coding[0].code', textValue)
+        set(observationData, 'code.coding[0].code', textValue)
         break;
       case "loincCodeText":
-        set(formData, 'code.coding[0].display', textValue)
+        set(observationData, 'code.text', textValue)
+        break;
+      case "loincCodeDisplay":
+        set(observationData, 'code.coding[0].display', textValue)
         break;
     }
     return observationData;
@@ -483,9 +513,9 @@ export class ObservationDetail extends React.Component {
           Bert.alert(error.reason, 'danger');
         }
         if (result) {
-          HipaaLogger.logEvent({eventType: "update", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Observations", recordId: self.data.observationId});
-          Session.set('selectedObservationId', false);
-          Session.set('observationPageTabIndex', 1);
+          if(self.props.onUpdate){
+            self.props.onUpdate(self.data.observationId);
+          }
           Bert.alert('Observation added!', 'success');
         }
       });
@@ -500,9 +530,9 @@ export class ObservationDetail extends React.Component {
           Bert.alert(error.reason, 'danger');
         }
         if (result) {
-          HipaaLogger.logEvent({eventType: "create", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Observations", recordId: self.data.observationId});
-          Session.set('selectedObservationId', false);
-          Session.set('observationPageTabIndex', 1);
+          if(self.props.onInsert){
+            self.props.onInsert(self.data.observationId);
+          }
           Bert.alert('Observation added!', 'success');
         }
       });
@@ -511,7 +541,9 @@ export class ObservationDetail extends React.Component {
 
   // this could be a mixin
   handleCancelButton() {
-    Session.set('observationPageTabIndex', 1);
+    if(this.props.onCancel){
+      this.props.onCancel();
+    }
   }
 
   handleDeleteButton() {
@@ -523,10 +555,10 @@ export class ObservationDetail extends React.Component {
         Bert.alert(error.reason, 'danger');
       }
       if (result) {
-        Session.set('observationPageTabIndex', 1);
-        Session.set('selectedObservationId', false);
+        if(this.props.onDelete){
+          this.props.onDelete(self.data.observationId);
+        }
         Bert.alert('Observation deleted!', 'success');
-        HipaaLogger.logEvent({eventType: "delete", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "Observations", recordId: self.data.observationId});
       }
     })
   }
@@ -536,7 +568,13 @@ ObservationDetail.propTypes = {
   id: PropTypes.string,
   fhirVersion: PropTypes.string,
   observationId: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  observation: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+  observation: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  showPatientInputs: PropTypes.bool,
+  showHints: PropTypes.bool,
+  onInsert: PropTypes.func,
+  onUpdate: PropTypes.func,
+  onRemove: PropTypes.func,
+  onCancel: PropTypes.func
 };
 ReactMixin(ObservationDetail.prototype, ReactMeteorData);
 export default ObservationDetail;
