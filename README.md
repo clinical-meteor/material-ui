@@ -1,4 +1,4 @@
-## [Material-FHIR-UI](http://clinical.meteorapp.com)  
+## [material-fhir-ui](http://clinical.meteorapp.com)  
 [![npm package](https://img.shields.io/npm/v/material-ui.svg?style=flat-square)](https://www.npmjs.org/package/material-ui)
 
 Material-FHIR UI is a set of [React](http://facebook.github.io/react/) components that implement [HL7 FHIR Resources](https://www.hl7.org/fhir/resourcelist.html) using
@@ -92,12 +92,12 @@ Please refer to each component's documentation page to see how they should be im
 ## Currently Supported Api      
 
 
-[<PatientCard>](./fhir-components/patients/PatientCard.jsx)    
-[<PatientTable>](./fhir-components/patients/PatientTable.jsx)    
-[<PatientDetail>](./fhir-components/patients/PatientDetail.jsx)    
+[PatientCard](./fhir-components/patients/PatientCard.jsx)    
+[PatientTable](./fhir-components/patients/PatientTable.jsx)    
+[PatientDetail](./fhir-components/patients/PatientDetail.jsx)    
 
-[<ObservationTable>](./fhir-components/observation/ObservationTable.jsx)    
-[<ObservationDetail>](./fhir-components/observation/ObservationTable.jsx)    
+[ObservationTable](./fhir-components/observation/ObservationTable.jsx)    
+[ObservationDetail](./fhir-components/observation/ObservationTable.jsx)    
 
 
 ## Examples
