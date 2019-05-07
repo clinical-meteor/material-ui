@@ -47,7 +47,7 @@ on how to do so.
 
 Material-FHIR-UI components require a theme to be provided. The quickest way to get up and running is by using the `MuiThemeProvider` to inject the theme into your application context. Following that, you can to use any of the components as demonstrated in the documentation. Here is a quick example to get you started:
 
-**./App.js**
+**Theming**
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -68,16 +68,24 @@ ReactDOM.render(
 );
 ```
 
-**./PatientCard.jsx**
+**PatientTablex**
 ```jsx
 import React from 'react';
 import { PatientTable } from 'material-fhir-ui';
 
-const MyAwesomeFhirWorkflowComponent = () => (
-  <PatientTable label="Default" />
+const MyFhirWorkflowComponent = () => (
+  <PatientTable 
+    hideToggle={false}
+    hideActions={true}
+    hideMaritalStatus={true}
+    hideLanguage={true}
+    onRowClick={function(patientId){
+      Session.set('selectedPatientId', patientId);
+    }}
+  />
 );
 
-export default MyAwesomeFhirWorkflowComponent;
+export default MyFhirWorkflowComponent;
 ```
 
 Please refer to each component's documentation page to see how they should be imported.
