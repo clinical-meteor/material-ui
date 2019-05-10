@@ -2,7 +2,7 @@
   "name": "material-fhir-ui",
   "private": false,
   "author": "Clinical Meteor",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "HL7 FHIR Resources built with Material UI and React",
   "main": "./fhir-components/index.js",
   "keywords": [
