@@ -10,6 +10,7 @@ We intend to track normative level resources only; which as of R4 are primarily 
 If you're interested in non-normative resources, feel free to peruse the `/client/react` directories of any of the `hl7-resource-*` repositories in the [clinical-meteor](https://github.com/clinical-meteor) organization.  
 
 
+
 ## Prerequisites
 
 [Fast Healthcare Interoperatbility Resources](https://www.hl7.org/fhir/resourcelist.html)  
@@ -73,15 +74,34 @@ import React from 'react';
 import { PatientTable } from 'material-fhir-ui';
 
 const MyFhirWorkflowComponent = () => (
-  <PatientTable 
-    hideToggle={false}
-    hideActions={true}
-    hideMaritalStatus={true}
-    hideLanguage={true}
-    onRowClick={function(patientId){
-      Session.set('selectedPatientId', patientId);
-    }}
-  />
+  <div>
+    <PatientTable 
+      noDataMessagePadding={100}
+      patients={ Patients.find().fetch() }
+      paginationLimit={ t100 }
+      appWidth={ Session.get('appWidth') }
+      actionButtonLabel="Send"
+      onRowClick={ function(patientId){ 
+        Session.set('selectedPatientId', patientId);
+      }}
+      />
+      <hr />
+      <PatientDetail 
+        id='patientDetails' 
+        fhirVersion="3.0.1"
+        patient={ Patients.findOne("").fetch() }
+        patientId={ this.data.selectedPatientId }
+        onDelete={ function(patientId){
+          Patients.remove({_id: patientId})
+        }}
+        onUpsert={ function(context){          
+          let newPatient = context.state.patient;
+          newPatient.resourceType = "Patient";
+          Patients.insert(newPatient)      
+        }}
+        onCancel={ this.onCancelUpsertPatient } 
+      />
+  </div>
 );
 
 export default MyFhirWorkflowComponent;
@@ -91,13 +111,9 @@ Please refer to each component's documentation page to see how they should be im
 
 ## Currently Supported Api      
 
-
-[PatientCard](./fhir-components/patients/PatientCard.jsx)    
 [PatientTable](./fhir-components/patients/PatientTable.jsx)    
 [PatientDetail](./fhir-components/patients/PatientDetail.jsx)    
 
-[ObservationTable](./fhir-components/observation/ObservationTable.jsx)    
-[ObservationDetail](./fhir-components/observation/ObservationTable.jsx)    
 
 
 ## Examples
@@ -108,3 +124,7 @@ Please see the [meteor-on-fhir](https://github.com/clinical-meteor/meteor-on-fhi
 ## License
 This project is licensed under the terms of the
 [MIT license](https://github.com/callemall/material-ui/blob/master/LICENSE)
+
+## Contributions  
+
+Please note that we began this refactor using a Meteor.js specific user interface called Blaze, and forked the entire Material UI library to provide a scaffold of where we needed to migrate our components to.  As such, we have a lot of left-over code from the Material codebase, which we don't entirely use.  This will be cleaned up in future versions.  Active development is currently in the `fhir-components` directory, and all other directories can be effectively ignored.
