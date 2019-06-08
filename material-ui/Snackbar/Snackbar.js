@@ -201,7 +201,7 @@ class Snackbar extends Component {
       onActionTouchTap,
       style,
       bodyStyle,
-      ...other,
+      ...other
     } = this.props;
 
     const {

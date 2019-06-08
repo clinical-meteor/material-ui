@@ -284,7 +284,7 @@ class DatePicker extends Component {
       style,
       textFieldStyle,
       wordings,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

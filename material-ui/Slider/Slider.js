@@ -697,7 +697,7 @@ class Slider extends Component {
       sliderStyle,
       step,
       style,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

@@ -120,7 +120,7 @@ class DatePickerDialog extends Component {
       shouldDisableDate,
       style, // eslint-disable-line no-unused-vars
       wordings,
-      ...other,
+      ...other
     } = this.props;
 
     const {open} = this.state;

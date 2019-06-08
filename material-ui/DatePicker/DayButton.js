@@ -95,7 +95,7 @@ class DayButton extends Component {
       date, // eslint-disable-line no-unused-vars
       onTouchTap, // eslint-disable-line no-unused-vars
       selected, // eslint-disable-line no-unused-vars
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

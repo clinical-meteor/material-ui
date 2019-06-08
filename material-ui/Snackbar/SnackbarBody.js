@@ -67,7 +67,7 @@ export const SnackbarBody = (props, context) => {
     message,
     onActionTouchTap,
     style,
-    ...other,
+    ...other
   } = props;
 
   const {prepareStyles} = context.muiTheme;

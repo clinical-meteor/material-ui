@@ -115,7 +115,7 @@ class CardHeader extends Component {
       textStyle,
       title,
       titleStyle,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

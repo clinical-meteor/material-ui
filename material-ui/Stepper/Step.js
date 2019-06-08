@@ -85,7 +85,7 @@ export default class Step extends Component {
       last, // eslint-disable-line no-unused-vars
       children,
       style,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

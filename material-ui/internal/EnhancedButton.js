@@ -282,7 +282,7 @@ class EnhancedButton extends Component {
       style,
       tabIndex,
       type,
-      ...other,
+      ...other
     } = this.props;
 
     const {
@@ -331,7 +331,7 @@ class EnhancedButton extends Component {
     }
 
     const buttonProps = {
-      ...other,
+      ...other
       style: prepareStyles(mergedStyles),
       ref: 'enhancedButton',
       disabled: disabled,

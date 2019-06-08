@@ -171,7 +171,7 @@ class GridTile extends Component {
       style,
       children,
       containerElement,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;
@@ -212,7 +212,7 @@ class GridTile extends Component {
 
     const containerProps = {
       style: prepareStyles(mergedRootStyles),
-      ...other,
+      ...other
     };
 
     return React.isValidElement(containerElement) ?

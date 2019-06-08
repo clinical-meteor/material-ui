@@ -27,7 +27,7 @@ const Divider = (props, context) => {
   const {
     inset,
     style,
-    ...other,
+    ...other
   } = props;
 
   const {muiTheme} = context;

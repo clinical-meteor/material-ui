@@ -159,7 +159,7 @@ class Popover extends Component {
       animation,
       children,
       style,
-      ...other,
+      ...other
     } = this.props;
 
     let Animation = animation || PopoverAnimationDefault;

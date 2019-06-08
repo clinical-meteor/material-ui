@@ -28,7 +28,7 @@ const Subheader = (props, context) => {
     children,
     inset,
     style,
-    ...other,
+    ...other
   } = props;
 
   const {prepareStyles, subheader} = context.muiTheme;

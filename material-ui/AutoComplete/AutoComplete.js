@@ -395,7 +395,7 @@ class AutoComplete extends Component {
       onUpdateInput, // eslint-disable-line no-unused-vars
       openOnFocus, // eslint-disable-line no-unused-vars
       searchText: searchTextProp, // eslint-disable-line no-unused-vars
-      ...other,
+      ...other
     } = this.props;
 
     const {

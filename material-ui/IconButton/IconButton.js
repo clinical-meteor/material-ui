@@ -193,7 +193,7 @@ class IconButton extends Component {
       tooltipStyles,
       touch,
       iconStyle,
-      ...other,
+      ...other
     } = this.props;
     let fonticon;
 

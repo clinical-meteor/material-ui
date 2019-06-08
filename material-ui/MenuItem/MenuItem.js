@@ -229,7 +229,7 @@ class MenuItem extends Component {
       secondaryText,
       style,
       value, // eslint-disable-line no-unused-vars
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

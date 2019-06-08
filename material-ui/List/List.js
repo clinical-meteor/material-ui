@@ -50,7 +50,7 @@ class List extends Component {
       subheader,
       subheaderStyle,
       zDepth,
-      ...other,
+      ...other
     } = this.props;
 
     warning((typeof zDepth === 'undefined'), 'List no longer supports `zDepth`. Instead, wrap it in `Paper` ' +

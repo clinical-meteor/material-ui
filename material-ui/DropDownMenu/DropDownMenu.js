@@ -251,7 +251,7 @@ class DropDownMenu extends Component {
       style,
       underlineStyle,
       value,
-      ...other,
+      ...other
     } = this.props;
 
     const {

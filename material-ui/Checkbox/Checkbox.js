@@ -179,7 +179,7 @@ class Checkbox extends Component {
       checkedIcon,
       uncheckedIcon,
       unCheckedIcon,
-      ...other,
+      ...other
     } = this.props;
     const styles = getStyles(this.props, this.context);
     const boxStyles =

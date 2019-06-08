@@ -55,7 +55,7 @@ class GridList extends Component {
       cellHeight,
       children,
       style,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

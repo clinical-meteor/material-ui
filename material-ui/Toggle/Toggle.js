@@ -185,7 +185,7 @@ class Toggle extends Component {
       defaultToggled,
       onToggle, // eslint-disable-line no-unused-vars
       toggled,
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

@@ -539,7 +539,7 @@ class Menu extends Component {
       valueLink, // eslint-disable-line no-unused-vars
       width, // eslint-disable-line no-unused-vars
       zDepth,
-      ...other,
+      ...other
     } = this.props;
 
     warning((typeof zDepth === 'undefined'), 'Menu no longer supports `zDepth`. Instead, wrap it in `Paper` ' +

@@ -152,7 +152,7 @@ class RadioButton extends Component {
       onCheck, // eslint-disable-line no-unused-vars
       uncheckedIcon,
       disabled,
-      ...other,
+      ...other
     } = this.props;
 
     const styles = getStyles(this.props, this.context);

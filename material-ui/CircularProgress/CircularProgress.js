@@ -165,7 +165,7 @@ class CircularProgress extends Component {
       style,
       innerStyle,
       size, // eslint-disable-line no-unused-vars
-      ...other,
+      ...other
     } = this.props;
 
     const {prepareStyles} = this.context.muiTheme;

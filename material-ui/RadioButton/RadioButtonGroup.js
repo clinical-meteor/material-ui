@@ -125,7 +125,7 @@ class RadioButtonGroup extends Component {
         value, // eslint-disable-line no-unused-vars
         label, // eslint-disable-line no-unused-vars
         onCheck, // eslint-disable-line no-unused-vars
-        ...other,
+        ...other
       } = option.props;
 
       return (
